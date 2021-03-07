@@ -108,8 +108,8 @@ Descriptif des Keyspaces:
 DESCRIBE keyspaces;
 DESCRIBE KEYSPACE resto;
 ```
-```
 Ajouter une table restaurant :
+```
    id => int et primary key
    name => varchar
    borough => varchar,
@@ -131,8 +131,8 @@ cuisinetype text,
 primary key (id));
 
 ```
-```
 Ajouter une table inspection :
+```
    idrestaurant => int et primary key
    inspectiondate => date et primary key,
    violationcode => varchar,
