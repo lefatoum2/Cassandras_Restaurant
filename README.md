@@ -1,6 +1,6 @@
 # Cassandras_Restaurant
 
-# Création du cluster de 2 base de données Cassandra
+## Création du cluster de 2 base de données Cassandra
 
 ```
 
@@ -46,7 +46,7 @@ docker-compose up -d
 
 ```
 
-# Insertion des requêtes
+## Insertion des requêtes
 
 Pour utiliser le CQL, il faut entrer dans la bash du conteneur :
 ```
