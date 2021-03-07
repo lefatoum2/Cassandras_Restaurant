@@ -157,14 +157,14 @@ primary key (idrestaurant,inspectiondate));
 Créez un index sur cuisinetype de la table restaurant:
 ```
 CREATE INDEX IF NOT EXISTS index_cuisinetype
-ON resto.restaurant ( KEYS ( cuisinetype ) )
+ON resto.restaurant (cuisinetype);
 ```
 
 Créez un index sur grade de la table inspection:
 
 ```
 CREATE INDEX IF NOT EXISTS index_inspection
-ON resto.inspection ( KEYS ( grade ) )
+ON resto.inspection (grade);
 ```
 
 Importez les fichiers dans le conteneur à partir de docker grâce à la commande suivante :
