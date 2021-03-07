@@ -35,7 +35,7 @@ services:
       - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
       - CASSANDRA_DC=datacenter1
       - CASSANDRA_SEEDS=cas1
-      - 
+      
 ```
 
 # Insertion des requêtes
