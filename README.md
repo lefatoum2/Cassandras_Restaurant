@@ -38,4 +38,12 @@ services:
       
 ```
 
+Puis lancez :
+
+```
+
+docker-compose up -d
+
+```
+
 # Insertion des requêtes
