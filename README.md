@@ -181,3 +181,8 @@ COPY Restaurant (id, name, borough, buildingnum, street, zipcode, phone, cuisine
 
 Importez les données du fichier restaurants_inspections.csv dans la table inspection (en vous inspirant de la dernière commande):
 
+```
+COPY Inspection (idrestaurant, inspectiondate, violationcode, violationdescription, criticalflag, score, grade) FROM 'restaurants_inspections.csv' WITH DELIMITER=',';
+
+```
+
