@@ -102,3 +102,54 @@ Création d'un keyspace:
 CREATE KEYSPACE IF NOT EXISTS resto WITH REPLICATION = {'class' : 'SimpleStrategy', 'replication_factor': 2};
 
 ```
+
+Descriptif des Keyspaces:
+```
+DESCRIBE keyspaces;
+DESCRIBE KEYSPACE resto;
+```
+
+Ajouter une table restaurant :
+o id => int et primary key
+o name => varchar
+o borough => varchar,
+o buildingnum => varchar,
+o street => varchar,
+o zipcode => int,
+o phone => text,
+o cuisinetype => varchar
+
+```
+resto> create table restaurant (id int,
+name text,
+borough text,
+buildingnum text,
+street text,
+zipcode int,
+phone text,
+cuisinetype text,
+primary key (id));
+
+```
+
+Ajouter une table inspection :
+o idrestaurant => int et primary key
+o inspectiondate => date et primary key,
+o violationcode => varchar,
+o violationdescription => varchar,
+o criticalflag => varchar,
+o score => int,
+o grade => varchar
+
+```
+resto> create table inspection (idrestaurant int,
+inspectiondate date,
+violationcode text,
+violationdescription text,
+criticalflag text,
+zipcode int,
+score int,
+grade text,
+primary key (idrestaurant,inspectiondate));
+
+```
