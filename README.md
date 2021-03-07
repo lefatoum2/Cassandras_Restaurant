@@ -47,3 +47,16 @@ docker-compose up -d
 ```
 
 # Insertion des requêtes
+
+Pour utiliser le CQL, il faut entrer dans la bash du conteneur :
+```
+docker exec -it cas1 /bin/bash
+
+```
+
+Le client, en ligne de commandes, de Cassandra se nomme CQLSH :
+
+```
+# cqlsh
+
+```
