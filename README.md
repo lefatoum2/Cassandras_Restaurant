@@ -99,6 +99,6 @@ Création d'un keyspace:
 
 ```
 
-CREATE KEYSPACE IF NOT EXISTS Movies WITH REPLICATION = {'class' : 'SimpleStrategy', 'replication_factor': 2};
+CREATE KEYSPACE IF NOT EXISTS resto WITH REPLICATION = {'class' : 'SimpleStrategy', 'replication_factor': 2};
 
 ```
