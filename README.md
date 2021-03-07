@@ -1,5 +1,38 @@
 # Cassandras_Restaurant
 
+## Contexte du projet
+
+Le CRKI est contacté par un client qui a un gros besoin en big data. Il souhaite centraliser dans une base de données, les résultats des inspections des restaurants. La base est appelée à grossir de façon continue. Il faut donc une technologie scalable, sans perdre en temps de réponse. La solution semble être Cassandra et c'est ce que vous allez devoir prouver en déployant un cluster.
+
+Le plus simple, pour prouver la faisabilité du projet, est de créer ce cluster avec des conteneurs. Puis de préparer une API pour tester l'accessibilité et le temps de réponse de la base.
+
+## Modalités pédagogiques
+
+En binôme vous allez préparer un docker-compose qui permet de déployer un cluster Cassandra avec 2 noyaux. Il faut impérativement un volume pour garantir la persistance des données.
+
+Le cluster monté, vous devez suivre les instructions pour créer la base et importer les données csv.
+
+Enfin, coder une petit API qui propose 4 url pour accéder :
+
+aux infos d'un restaurant à partir de son id,
+à la liste des noms de restaurants à partir du type de cuisine,
+au nombre d'inspection d'un restaurant à partir de son id restaurant,
+les noms des 10 premiers restaurants d'un grade donné.
+Et en bonus, intégrer l'API dans le docker-compose.
+
+## Critères de performance
+
+Les noeuds et les volumes se construisent bien à partir du docker-compose. L'API retourne les bonnes données.
+
+## Modalités d'évaluation
+
+Démonstration au formateur.
+
+## Livrables
+
+Un lien vers un github qui contient le docker-compose du cluster et le code de l'API.
+
+
 ## Création du cluster de 2 base de données Cassandra
 
 docker-compose.yml
