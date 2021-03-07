@@ -62,3 +62,10 @@ Le client, en ligne de commandes, de Cassandra se nomme CQLSH :
 # cqlsh
 
 ```
+Création d'un keyspace:
+
+```
+
+CREATE KEYSPACE IF NOT EXISTS Movies WITH REPLICATION = {'class' : 'SimpleStrategy', 'replication_factor': 2};
+
+```
