@@ -108,7 +108,7 @@ Descriptif des Keyspaces:
 DESCRIBE keyspaces;
 DESCRIBE KEYSPACE resto;
 ```
-
+```
 Ajouter une table restaurant :
    id => int et primary key
    name => varchar
@@ -118,7 +118,7 @@ Ajouter une table restaurant :
    zipcode => int,
    phone => text,
    cuisinetype => varchar
-
+```
 ```
 resto> create table restaurant (id int,
 name text,
@@ -131,7 +131,7 @@ cuisinetype text,
 primary key (id));
 
 ```
-
+```
 Ajouter une table inspection :
    idrestaurant => int et primary key
    inspectiondate => date et primary key,
@@ -140,6 +140,7 @@ Ajouter une table inspection :
    criticalflag => varchar,
    score => int,
    grade => varchar
+```
 
 ```
 resto> create table inspection (idrestaurant int,
@@ -153,3 +154,30 @@ grade text,
 primary key (idrestaurant,inspectiondate));
 
 ```
+Créez un index sur cuisinetype de la table restaurant:
+```
+CREATE INDEX IF NOT EXISTS index_cuisinetype
+ON resto.restaurant ( KEYS ( cuisinetype ) )
+```
+
+Créez un index sur grade de la table inspection:
+
+```
+CREATE INDEX IF NOT EXISTS index_inspection
+ON resto.inspection ( KEYS ( grade ) )
+```
+
+Importez les fichiers dans le conteneur à partir de docker grâce à la commande suivante :
+
+```
+docker cp <file path to copy> <name of container>:/
+```
+
+Importez les données du fichier restaurants.csv dans la table restaurant (commande cqlsh) :
+
+```
+COPY Restaurant (id, name, borough, buildingnum, street, zipcode, phone, cuisinetype) FROM 'restaurants.csv' WITH DELIMITER=',';
+```
+
+Importez les données du fichier restaurants_inspections.csv dans la table inspection (en vous inspirant de la dernière commande):
+
