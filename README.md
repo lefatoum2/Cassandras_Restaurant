@@ -2,6 +2,8 @@
 
 ## Création du cluster de 2 base de données Cassandra
 
+docker-compose.yml
+
 ```
 
 version: '2'
