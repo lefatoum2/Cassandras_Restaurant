@@ -110,14 +110,14 @@ DESCRIBE KEYSPACE resto;
 ```
 
 Ajouter une table restaurant :
-o id => int et primary key
-o name => varchar
-o borough => varchar,
-o buildingnum => varchar,
-o street => varchar,
-o zipcode => int,
-o phone => text,
-o cuisinetype => varchar
+   id => int et primary key
+   name => varchar
+   borough => varchar,
+   buildingnum => varchar,
+   street => varchar,
+   zipcode => int,
+   phone => text,
+   cuisinetype => varchar
 
 ```
 resto> create table restaurant (id int,
@@ -133,13 +133,13 @@ primary key (id));
 ```
 
 Ajouter une table inspection :
-o idrestaurant => int et primary key
-o inspectiondate => date et primary key,
-o violationcode => varchar,
-o violationdescription => varchar,
-o criticalflag => varchar,
-o score => int,
-o grade => varchar
+   idrestaurant => int et primary key
+   inspectiondate => date et primary key,
+   violationcode => varchar,
+   violationdescription => varchar,
+   criticalflag => varchar,
+   score => int,
+   grade => varchar
 
 ```
 resto> create table inspection (idrestaurant int,
