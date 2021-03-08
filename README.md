@@ -196,3 +196,14 @@ COPY Inspection (idrestaurant, inspectiondate, violationcode, violationdescripti
 
 ```
 
+## Création du dockerfile de l'API :
+
+
+## Création du requirements.txt :
+
+```
+Flask
+FastAPI
+Optional
+Uvicorn
+```
