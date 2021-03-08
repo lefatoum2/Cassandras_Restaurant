@@ -199,19 +199,8 @@ COPY Inspection (idrestaurant, inspectiondate, violationcode, violationdescripti
 ## Création du dockerfile de l'API :
 
 ```
-FROM python:3.8
-
-EXPOSE 5000
-
-
-WORKDIR /Cassandras_restaurant
-
-
-COPY requirements.txt /Cassandras_restaurant
+FROM python:3
 RUN pip install -r requirements.txt
-
-
-COPY api.py /Cassandras_restaurant
 CMD python api.py
 
 ```
@@ -273,11 +262,3 @@ services:
 
 ```
 
-Dockerfile :
-
-```
-FROM python:3
-RUN pip install -r requirements.txt
-CMD python api.py
-
-```
