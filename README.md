@@ -259,7 +259,17 @@ services:
       - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
       - CASSANDRA_DC=datacenter1
       - CASSANDRA_SEEDS=cassa1
- 
+
+  app:
+    container_name: api1
+    build:
+      context: ../
+      dockerfile: ./Dockerfile
+    ports:
+      - "5000:5000"
+    links:
+      - cassa1
+
 
 ```
 
@@ -267,9 +277,7 @@ Dockerfile :
 
 ```
 FROM python:3
-ADD app/ /app
-WORKDIR /app
 RUN pip install -r requirements.txt
-CMD python app.py
+CMD python api.py
 
 ```
