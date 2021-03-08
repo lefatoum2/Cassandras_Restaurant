@@ -176,9 +176,10 @@ ON resto.inspection (grade);
 Importez les fichiers dans le conteneur à partir de docker grâce à la commande suivante :
 
 ```
-docker cp ./restaurant.csv cass1:/
-docker cp ./restaurants_inspections.csv cass1:/
 
+docker cp ./restaurant.csv cass1:/
+
+docker cp ./restaurants_inspections.csv cass1:/
 
 ```
 
