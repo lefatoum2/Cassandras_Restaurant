@@ -212,6 +212,8 @@ Flask
 FastAPI
 Optional
 Uvicorn
+Flask-cqlalchemy
+CQL
 ```
 
 Docker-compose.yml mis à jour:
