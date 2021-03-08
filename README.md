@@ -314,6 +314,8 @@ class DataB:
         cls.cursor.execute(query)
         res = cls.close()
 
+```
+
 ## Création de api.py
 ```
 
