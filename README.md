@@ -108,6 +108,12 @@ Descriptif des Keyspaces:
 DESCRIBE keyspaces;
 DESCRIBE KEYSPACE resto;
 ```
+
+Positionnez-vous sur le keyspace: 
+```
+USE resto;
+
+```
 Ajouter une table restaurant :
 ```
    id => int et primary key
@@ -120,7 +126,7 @@ Ajouter une table restaurant :
    cuisinetype => varchar
 ```
 ```
-resto> create table restaurant (id int,
+create table restaurant (id int,
 name text,
 borough text,
 buildingnum text,
@@ -143,7 +149,7 @@ Ajouter une table inspection :
 ```
 
 ```
-resto> create table inspection (idrestaurant int,
+create table inspection (idrestaurant int,
 inspectiondate date,
 violationcode text,
 violationdescription text,
