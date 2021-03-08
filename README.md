@@ -252,7 +252,7 @@ services:
   app:
     container_name: api1
     build:
-      context: ../
+      context: ./
       dockerfile: ./Dockerfile
     ports:
       - "5000:5000"
