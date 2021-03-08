@@ -286,34 +286,34 @@ class DataB:
     # infos d'un restaurant à partir de son id
     @classmethod
     def infos(cls, id):
-        CQLS = "select from where "
-        res = cls.cursor.execute(CQLS)
+        query = "select from where "
+        res = cls.cursor.execute(query)
         cls.connexion()
 
     #  liste des noms de restaurants à partir du type de cuisine
     @classmethod
     def noms(cls, type):
         cls.connexion()
-        CQLS = "select from where "
-        res =cls.cursor.execute(CQLS)
+        query = "select from where "
+        res =cls.cursor.execute(query)
         cls.close()
 
     # les noms des 10 premiers restaurants d'un grade donné
     @classmethod
     def grades(cls, grad):
         cls.connexion()
-        CQLS = "select from where limit 10"
-        res = cls.cursor.execute(CQLS)
+        query = "select from where limit 10"
+        res = cls.cursor.execute(query)
         cls.close()
 
     # nombre d'inspection d'un restaurant à partir de son id restaurant
     @classmethod
     def inspec(cls, id):
         cls.connexion()
-        CQLS = "select count() from where "
-        cls.cursor.execute(CQLS)
+        query = "select count() from where "
+        cls.cursor.execute(query)
         res = cls.close()
-```
+
 ## Création de api.py
 ```
 
