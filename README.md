@@ -176,7 +176,10 @@ ON resto.inspection (grade);
 Importez les fichiers dans le conteneur à partir de docker grâce à la commande suivante :
 
 ```
-docker cp <file path to copy> <name of container>:/
+docker cp ./restaurant.csv cass1:/
+docker cp ./restaurants_inspections.csv cass1:/
+
+
 ```
 
 Importez les données du fichier restaurants.csv dans la table restaurant (commande cqlsh) :
