@@ -177,9 +177,9 @@ Importez les fichiers dans le conteneur à partir de docker grâce à la command
 
 ```
 
-docker cp ./restaurant.csv cass1:/
+docker cp restaurant.csv cass1:/
 
-docker cp ./restaurants_inspections.csv cass1:/
+docker cp restaurants_inspections.csv cass1:/
 
 ```
 
