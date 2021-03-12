@@ -73,6 +73,72 @@ services:
       
 ```
 
+Deuxième version du docker-compose:
+
+```
+version: '2'
+
+services:
+ cassa1:
+    container_name: cassa1
+    image: cassandra:latest
+    volumes:
+      - ./Cassandras_Restaurant:/var/lib/cassandra/data
+    ports:
+      - 9042:9042
+    environment:
+      - CASSANDRA_START_RPC=true
+      - CASSANDRA_CLUSTER_NAME=MyCluster
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_DC=datacenter
+      
+    command: CREATE KEYSPACE IF NOT EXISTS resto WITH REPLICATION = {'class' : 'SimpleStrategy', 'replication_factor': 2};
+    command: USE resto;
+    command: create table restaurant (id int,
+               name text,
+               borough text,
+               buildingnum text,
+               street text,
+               zipcode int,
+               phone text,
+               cuisinetype text,
+               primary key (id));
+
+    command: create table inspection (idrestaurant int,
+               inspectiondate date,
+               violationcode text,
+               violationdescription text,
+               criticalflag text,
+               zipcode int,
+               score int,
+               grade text,
+               primary key (idrestaurant,inspectiondate));
+    command: CREATE INDEX IF NOT EXISTS index_cuisinetype ON resto.restaurant (cuisinetype);
+
+    command: CREATE INDEX IF NOT EXISTS index_inspection ON resto.inspection (grade);
+    command: docker cp ./restaurants.csv cassa1:/
+    command: docker cp ./restaurants_inspections.csv cassa1:/
+    command: COPY Restaurant (id, name, borough, buildingnum, street, zipcode, phone, cuisinetype) FROM 'restaurants.csv' WITH DELIMITER=',';
+    command: COPY Inspection (idrestaurant, inspectiondate, violationcode, violationdescription, criticalflag, score, grade) FROM 'restaurants_inspections.csv' WITH           DELIMITER=',';
+
+    
+ cassa2:
+  container_name: cassa2
+  image: cassandra:latest
+  volumes:
+      - ./Cassandras_Restaurant:/var/lib/cassandra/data
+  ports:
+      - 9043:9042
+  command: bash -c 'sleep 60;  /docker-entrypoint.sh cassandra -f'
+  depends_on:
+    - cassa1
+  environment:
+      - CASSANDRA_START_RPC=true
+      - CASSANDRA_CLUSTER_NAME=MyCluster
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_DC=datacenter1
+      - CASSANDRA_SEEDS=cassa1
+```
 Puis lancez :
 
 ```
