@@ -388,9 +388,6 @@ class DataB:
         return res
 
 
-DataB.connexion()
-print("connexion réussie")
-
 app = FastAPI(redoc_url=None)
 
 
