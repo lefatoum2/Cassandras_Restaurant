@@ -238,7 +238,7 @@ CREATE INDEX IF NOT EXISTS index_inspection
 ON resto.inspection (grade);
 ```
 
-Importez les fichiers dans le conteneur à partir de docker grâce à la commande suivante :
+Importez les fichiers dans le conteneur à partir de docker grâce à la commande suivante(command line Windows ou Linux) :
 
 ```
 
@@ -249,6 +249,10 @@ docker cp ./restaurants_inspections.csv cassa1:/
 ```
 
 Importez les données du fichier restaurants.csv dans la table restaurant (commande cqlsh) :
+
+```
+USE  resto;
+```
 
 ```
 COPY Restaurant (id, name, borough, buildingnum, street, zipcode, phone, cuisinetype) FROM 'restaurants.csv' WITH DELIMITER=',';
