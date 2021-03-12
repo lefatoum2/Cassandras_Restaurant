@@ -332,52 +332,102 @@ services:
 
 ```
 import cql
-
+from typing import Optional
+from fastapi import FastAPI
+import uvicorn  # ASGI server
+from fastapi.encoders import jsonable_encoder
+from urllib.parse import urlparse
 
 class DataB:
     @classmethod
     def connexion(cls):
-        host = 'cass1'
+        host = '127.0.0.1'
         port = '9042'
         keyspace = 'resto'
         cls.con = cql.connect(host, port, keyspace)
         cls.cursor = cls.con.cursor()
 
     @classmethod
-    def close(cls):
+    def disconnect(cls):
         cls.cursor.close()
         cls.con.close()
 
     # infos d'un restaurant à partir de son id
     @classmethod
     def infos(cls, id):
-        query = "select from where "
-        res = cls.cursor.execute(query)
         cls.connexion()
+        query = "select * from restaurant where id = %s ", [id]
+        res = cls.cursor.execute(query)
+        return res
 
     #  liste des noms de restaurants à partir du type de cuisine
     @classmethod
-    def noms(cls, type):
+    def noms(cls, cuisinetype):
         cls.connexion()
-        query = "select from where "
-        res =cls.cursor.execute(query)
-        cls.close()
+        query = "select name from restaurant where type = %s", [cuisinetype]
+        res = cls.cursor.execute(query)
+        return res
 
     # les noms des 10 premiers restaurants d'un grade donné
     @classmethod
     def grades(cls, grad):
         cls.connexion()
-        query = "select from where limit 10"
+        query = "select name from restaurant inner join inspection on restaurant.id = inspection.idrestaurant  where grade = %s limit 10", [
+            grad]
         res = cls.cursor.execute(query)
-        cls.close()
+        return res
 
     # nombre d'inspection d'un restaurant à partir de son id restaurant
     @classmethod
     def inspec(cls, id):
         cls.connexion()
-        query = "select count() from where "
-        cls.cursor.execute(query)
-        res = cls.close()
+        query = "select count(inspectiondate) from inspection where idrestaurant = %s", [id]
+        res = cls.cursor.execute(query)
+        return res
+
+
+app = FastAPI(redoc_url=None)
+
+
+# infos d'un restaurant à partir de son id
+@app.get("/infos/{id}")
+async def infos(id: int):
+    DataB.connexion()
+    data = DataB.infos(id)
+    DataB.disconnect()
+    return data
+
+
+# liste des noms de restaurants à partir du type de cuisine
+@app.get("/infos/type/{cuisinetype}")
+async def noms(cuisinetype: str):
+    DataB.connexion()
+    data = DataB.noms(cuisinetype)
+    DataB.disconnect()
+    return data
+
+
+# les noms des 10 premiers restaurants d'un grade donné
+@app.get("/inspec/grades/{grad}")
+async def grades(grad: str):
+    DataB.connexion()
+    data = DataB.grades(grad)
+    DataB.disconnect()
+    return data
+
+
+# nombre d'inspection d'un restaurant à partir de son id restaurant
+@app.get("/inspec/{id}")
+async def inspec(id: int):
+    DataB.connexion()
+    data = DataB.inspec(id)
+    DataB.disconnect()
+    return data
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, port=8000)
+
 
 ```
 
