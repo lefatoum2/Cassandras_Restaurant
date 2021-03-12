@@ -120,7 +120,6 @@ services:
     command: docker cp ./restaurants_inspections.csv cassa1:/
     command: COPY Restaurant (id, name, borough, buildingnum, street, zipcode, phone, cuisinetype) FROM 'restaurants.csv' WITH DELIMITER=',';
     command: COPY Inspection (idrestaurant, inspectiondate, violationcode, violationdescription, criticalflag, score, grade) FROM 'restaurants_inspections.csv' WITH           DELIMITER=',';
-
     
  cassa2:
   container_name: cassa2
