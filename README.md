@@ -238,7 +238,7 @@ CREATE INDEX IF NOT EXISTS index_inspection
 ON resto.inspection (grade);
 ```
 
-Importez les fichiers dans le conteneur à partir de docker grâce à la commande suivante(command line Windows ou Linux) :
+Importez les fichiers dans le conteneur à partir de docker grâce à la commande suivante(sortir de CQLSH avec exit ) (command line Windows ou Linux) :
 
 ```
 
