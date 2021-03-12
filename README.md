@@ -347,8 +347,6 @@ from cassandra.auth import PlainTextAuthProvider
 from cassandra.cluster import Cluster
 
 
-# docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' container_name_or_id
-
 class DataB:
 
     @classmethod
