@@ -48,7 +48,7 @@ services:
     volumes:
       - ./Cassandras_Restaurant:/var/lib/cassandra/data
     ports:
-      - 9042:9042
+      - 9043:9042
     environment:
       - CASSANDRA_START_RPC=true
       - CASSANDRA_CLUSTER_NAME=MyCluster
@@ -60,7 +60,7 @@ services:
   volumes:
       - ./Cassandras_Restaurant:/var/lib/cassandra/data
   ports:
-      - 9043:9042
+      - 9044:9042
   command: bash -c 'sleep 60;  /docker-entrypoint.sh cassandra -f'
   depends_on:
     - cassa1
