@@ -39,21 +39,13 @@ docker-compose up -d
 
 ## Insertion des requêtes
 
-Pour utiliser le CQL, il faut entrer dans la bash du conteneur :
-```
-docker exec -it cassa1 /bin/bash
-```
+Pour utiliser le CQL d'un des conteneurs :
+
 ```
 docker exec -it cassa2  cqlsh 
 
 ```
 
-Le client, en ligne de commandes, de Cassandra se nomme CQLSH :
-
-```
-# cqlsh
-
-```
 Création d'un keyspace:
 
 ```
