@@ -12,7 +12,7 @@ services:
     ports:
       - 9042:9042
     environment:
-      - CASSANDRA_CLUSTER_NAME=MyCluster
+      - CASSANDRA_CLUSTER_NAME=Cluster1
       
  cas2:
   container_name: cas2
@@ -25,7 +25,7 @@ services:
   depends_on:
     - cas1
   environment: 
-      - CASSANDRA_CLUSTER_NAME=MyCluster
+      - CASSANDRA_CLUSTER_NAME=Cluster1
      
 ```
 
