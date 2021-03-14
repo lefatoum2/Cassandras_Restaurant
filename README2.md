@@ -134,6 +134,67 @@ Importez les données du fichier restaurants_inspections.csv dans la table inspe
 COPY Inspection (idrestaurant, inspectiondate, violationcode, violationdescription, criticalflag, score, grade) FROM 'restaurants_inspections.csv' WITH DELIMITER=',';
 
 ```
+## Création du data.py : 
+```python
+from cassandra.cluster import Cluster
+
+
+# docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' container_name_or_id
+
+class DataB:
+
+    @classmethod
+    def connexion(cls):
+        cls.cluster = Cluster(['127.0.0.1'], port=9043)
+        cls.session = cls.cluster.connect('resto', wait_for_all_pools=True)
+
+    # infos d'un restaurant à partir de son id
+
+    @classmethod
+    def infos(cls, id):
+        cls.connexion()
+        query = "select * from restaurant"
+        res = cls.session.execute(query)
+        for row in res:
+            if row[0] == id:
+                print(row)
+
+    #  liste des noms de restaurants à partir du type de cuisine
+    @classmethod
+    def noms(cls, cuisinetype):
+        cls.connexion()
+        query = "select * from restaurant"
+        res = cls.session.execute(query)
+        for row in res:
+            if row[3] == cuisinetype:
+                print(row.name)
+
+    # les noms des 10 premiers restaurants d'un grade donné
+    @classmethod
+    def grades(cls, grad):
+        cls.connexion()
+        query = "select * from inspection "
+        res = cls.session.execute(query)
+        for row in res:
+            if row[3] == grad:
+                print(row.idrestaurant)
+
+    # nombre d'inspection d'un restaurant à partir de son id restaurant
+    @classmethod
+    def inspec(cls, idresto):
+        cls.connexion()
+        query = "select * from inspection "
+        res = cls.session.execute(query)
+        for row in res:
+            if row[0] == idresto:
+                fg = 0 + 1
+        return fg
+
+
+if __name__ == "__main__":
+    DataB.inspec(41378305)
+```
+
 
 ## Création de api.py
 
@@ -230,64 +291,3 @@ if __name__ == "__main__":
     uvicorn.run(app, port=8000)
 
 ```
-
-```python
-from cassandra.cluster import Cluster
-
-
-# docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' container_name_or_id
-
-class DataB:
-
-    @classmethod
-    def connexion(cls):
-        cls.cluster = Cluster(['127.0.0.1'], port=9043)
-        cls.session = cls.cluster.connect('resto', wait_for_all_pools=True)
-
-    # infos d'un restaurant à partir de son id
-
-    @classmethod
-    def infos(cls, id):
-        cls.connexion()
-        query = "select * from restaurant"
-        res = cls.session.execute(query)
-        for row in res:
-            if row[0] == id:
-                print(row)
-
-    #  liste des noms de restaurants à partir du type de cuisine
-    @classmethod
-    def noms(cls, cuisinetype):
-        cls.connexion()
-        query = "select * from restaurant"
-        res = cls.session.execute(query)
-        for row in res:
-            if row[3] == cuisinetype:
-                print(row.name)
-
-    # les noms des 10 premiers restaurants d'un grade donné
-    @classmethod
-    def grades(cls, grad):
-        cls.connexion()
-        query = "select * from inspection "
-        res = cls.session.execute(query)
-        for row in res:
-            if row[3] == grad:
-                print(row.idrestaurant)
-
-    # nombre d'inspection d'un restaurant à partir de son id restaurant
-    @classmethod
-    def inspec(cls, idresto):
-        cls.connexion()
-        query = "select * from inspection "
-        res = cls.session.execute(query)
-        for row in res:
-            if row[0] == idresto:
-                fg = 0 + 1
-        return fg
-
-
-if __name__ == "__main__":
-    DataB.inspec(41378305)
-```
-
