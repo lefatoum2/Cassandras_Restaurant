@@ -42,6 +42,9 @@ docker-compose up -d
 Pour utiliser le CQL, il faut entrer dans la bash du conteneur :
 ```
 docker exec -it cassa1 /bin/bash
+```
+```
+docker exec -it cas2  cqlsh 
 
 ```
 
