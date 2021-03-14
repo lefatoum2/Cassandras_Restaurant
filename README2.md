@@ -4,8 +4,8 @@
 version: '2'
 
 services: 
- cas1: 
-    container_name: cas1
+ cassa1: 
+    container_name: cassa1
     image: cassandra:latest
     volumes:
       - ./cassa1:/var/lib/cassandra/data
@@ -14,8 +14,8 @@ services:
     environment:
       - CASSANDRA_CLUSTER_NAME=Cluster1
       
- cas2:
-  container_name: cas2
+ cassa2:
+  container_name: cassa2
   image: cassandra:latest
   volumes:
       - ./cassa2:/var/lib/cassandra/data
@@ -23,7 +23,7 @@ services:
       - 9043:9042
   command: bash -c 'sleep 60;  /docker-entrypoint.sh cassandra -f'
   depends_on:
-    - cas1
+    - cassa1
   environment: 
       - CASSANDRA_CLUSTER_NAME=Cluster1
      
