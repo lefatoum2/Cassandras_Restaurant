@@ -211,47 +211,6 @@ from cassandra.auth import PlainTextAuthProvider
 from cassandra.cluster import Cluster
 
 
-class DataB:
-
-    @classmethod
-    def connexion(cls):
-        cls.cluster = Cluster(['127.0.0.1'], port=9044)
-        cls.session = cls.cluster.connect(keyspace="resto")
-
-    # infos d'un restaurant à partir de son id
-    @classmethod
-    def infos(cls, id):
-        cls.connexion()
-        query = "select * from restaurant where id = %s ", [id]
-        res = cls.session.execute(query)
-        return res
-
-    #  liste des noms de restaurants à partir du type de cuisine
-    @classmethod
-    def noms(cls, cuisinetype):
-        cls.connexion()
-        query = "select name from restaurant where type = %s", [cuisinetype]
-        res = cls.session.execute(query)
-        return res
-
-    # les noms des 10 premiers restaurants d'un grade donné
-    @classmethod
-    def grades(cls, grad):
-        cls.connexion()
-        query = "select name from restaurant inner join inspection on restaurant.id = inspection.idrestaurant  where grade = %s limit 10", [
-            grad]
-        res = cls.session.execute(query)
-        return res
-
-    # nombre d'inspection d'un restaurant à partir de son id restaurant
-    @classmethod
-    def inspec(cls, id):
-        cls.connexion()
-        query = "select count(inspectiondate) from inspection where idrestaurant = %s", [id]
-        res = cls.session.execute(query)
-        return res
-
-
 app = FastAPI(redoc_url=None)
 
 
