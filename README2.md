@@ -70,7 +70,7 @@ Positionnez-vous sur le keyspace:
 USE resto;
 ```
 
-Ajouter une table restaurant :
+Ajoutez une table restaurant :
 ```
 create table restaurant (id int,
 name text,
@@ -84,7 +84,7 @@ primary key (id));
 
 ```
 
-Ajouter une table inspection :
+Ajoutez une table inspection :
 
 ```
 create table inspection (idrestaurant int,
