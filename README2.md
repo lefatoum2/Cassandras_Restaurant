@@ -185,14 +185,17 @@ class DataB:
         cls.connexion()
         query = "select * from inspection "
         res = cls.session.execute(query)
+        fg = 0
         for row in res:
             if row[0] == idresto:
-                fg = 0 + 1
-        return fg
+                fg += 1
+        print(fg)
 
 
 if __name__ == "__main__":
-    DataB.inspec(41378305)
+    DataB.inspec(40876078)
+    # DataB.noms('Indian')
+    # DataB.noms(41299113)
 ```
 
 
