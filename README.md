@@ -35,6 +35,8 @@ Un lien vers un github qui contient le docker-compose du cluster et le code de l
 
 # Cassandras Resto
 
+docker-compose.yml
+
 ```
 version: '2'
 
