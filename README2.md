@@ -1,3 +1,38 @@
+# Cassandras_Restaurant
+
+## Contexte du projet
+
+Le CRKI est contacté par un client qui a un gros besoin en big data. Il souhaite centraliser dans une base de données, les résultats des inspections des restaurants. La base est appelée à grossir de façon continue. Il faut donc une technologie scalable, sans perdre en temps de réponse. La solution semble être Cassandra et c'est ce que vous allez devoir prouver en déployant un cluster.
+
+Le plus simple, pour prouver la faisabilité du projet, est de créer ce cluster avec des conteneurs. Puis de préparer une API pour tester l'accessibilité et le temps de réponse de la base.
+
+## Modalités pédagogiques
+
+En binôme vous allez préparer un docker-compose qui permet de déployer un cluster Cassandra avec 2 noyaux. Il faut impérativement un volume pour garantir la persistance des données.
+
+Le cluster monté, vous devez suivre les instructions pour créer la base et importer les données csv.
+
+Enfin, coder une petit API qui propose 4 url pour accéder :
+
+aux infos d'un restaurant à partir de son id,
+à la liste des noms de restaurants à partir du type de cuisine,
+au nombre d'inspection d'un restaurant à partir de son id restaurant,
+les noms des 10 premiers restaurants d'un grade donné.
+Et en bonus, intégrer l'API dans le docker-compose.
+
+## Critères de performance
+
+Les noeuds et les volumes se construisent bien à partir du docker-compose. L'API retourne les bonnes données.
+
+## Modalités d'évaluation
+
+Démonstration au formateur.
+
+## Livrables
+
+Un lien vers un github qui contient le docker-compose du cluster et le code de l'API.
+
+
 # Cassandras Resto
 
 ```
@@ -134,12 +169,18 @@ Importez les données du fichier restaurants_inspections.csv dans la table inspe
 COPY Inspection (idrestaurant, inspectiondate, violationcode, violationdescription, criticalflag, score, grade) FROM 'restaurants_inspections.csv' WITH DELIMITER=',';
 
 ```
-## Création du data.py : 
+
+
+
+## Création de api.py
+
 ```python
 from cassandra.cluster import Cluster
+import uvicorn
+from fastapi import FastAPI
+from fastapi.encoders import jsonable_encoder
+from flask import current_app, flash, jsonify, make_response, redirect, request, url_for
 
-
-# docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' container_name_or_id
 
 class DataB:
 
@@ -153,11 +194,13 @@ class DataB:
     @classmethod
     def infos(cls, id):
         cls.connexion()
-        query = "select * from restaurant"
+        query = f"select * from restaurant where id = {id}"
         res = cls.session.execute(query)
+        list1 = []
         for row in res:
-            if row[0] == id:
-                print(row)
+            list1.append(row)
+        return list1
+
 
     #  liste des noms de restaurants à partir du type de cuisine
     @classmethod
@@ -165,19 +208,29 @@ class DataB:
         cls.connexion()
         query = "select * from restaurant"
         res = cls.session.execute(query)
+        list1 = []
         for row in res:
-            if row[3] == cuisinetype:
-                print(row.name)
+            list1.append(row.name)
+        return list1
 
-    # les noms des 10 premiers restaurants d'un grade donné
+    # accéder aux noms des 10 premiers restaurants d'un grade donné.
     @classmethod
-    def grades(cls, grad):
+    def restos_grade(cls, grade):
+        dico = {}
+        idrestaurant = []
+        liste_grade = []
         cls.connexion()
-        query = "select * from inspection "
-        res = cls.session.execute(query)
-        for row in res:
-            if row[3] == grad:
-                print(row.idrestaurant)
+        rows = cls.session.execute(
+            f"SELECT idrestaurant FROM inspection WHERE grade= '{grade}' GROUP BY idrestaurant limit 10;")
+        for row in rows:
+            idrestaurant.append(row.idrestaurant)
+        for id in idrestaurant:
+            info = cls.session.execute(f"SELECT name  FROM restaurant WHERE id = {id};")
+            info = list(info)
+            dico = {id: info}
+            liste_grade.append(dico)
+
+        return liste_grade
 
     # nombre d'inspection d'un restaurant à partir de son id restaurant
     @classmethod
@@ -189,36 +242,14 @@ class DataB:
         for row in res:
             if row[0] == idresto:
                 fg += 1
-        print(fg)
-
-
-if __name__ == "__main__":
-    DataB.inspec(40876078)
-    # DataB.noms('Indian')
-    # DataB.noms(41299113)
-```
-
-
-## Création de api.py
-
-```python
-import cql
-from typing import Optional
-from fastapi import FastAPI
-import uvicorn  # ASGI server
-from fastapi.encoders import jsonable_encoder
-from urllib.parse import urlparse
-from cassandra.cluster import Cluster
-import cassandra
-from cassandra.auth import PlainTextAuthProvider
-from cassandra.cluster import Cluster
+        return fg
 
 
 app = FastAPI(redoc_url=None)
 
 
 # infos d'un restaurant à partir de son id
-@app.get("/infos/<id>")
+@app.get("/infos/{id}")
 async def infos(id: int):
     DataB.connexion()
     data = DataB.infos(id)
@@ -226,7 +257,7 @@ async def infos(id: int):
 
 
 # liste des noms de restaurants à partir du type de cuisine
-@app.get("/type/<cuisinetype>")
+@app.get("/type/{cuisinetype}")
 async def noms(cuisinetype: str):
     DataB.connexion()
     data = DataB.noms(cuisinetype)
@@ -234,7 +265,7 @@ async def noms(cuisinetype: str):
 
 
 # les noms des 10 premiers restaurants d'un grade donné
-@app.get("/inspec/grades/<grad>")
+@app.get("/inspec/grades/{grad}")
 async def grades(grad: str):
     DataB.connexion()
     data = DataB.grades(grad)
@@ -242,7 +273,7 @@ async def grades(grad: str):
 
 
 # nombre d'inspection d'un restaurant à partir de son id restaurant
-@app.get("/inspec/<id>")
+@app.get("/inspec/{id}")
 async def inspec(id: int):
     DataB.connexion()
     data = DataB.inspec(id)
@@ -250,6 +281,6 @@ async def inspec(id: int):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, port=8000)
+    uvicorn.run(app, host='127.0.0.1', port=8000)
 
 ```
