@@ -365,6 +365,6 @@ http://127.0.0.1:8000/inspec/grades/A
 ### Test
 
 ![5.png](./788.JPG)
-![5.png](.989809.JPG/)
+![5.png](./989809.JPG/)
 ![5.png](./indian.JPG)
 ![5.png](./infos.JPG)
