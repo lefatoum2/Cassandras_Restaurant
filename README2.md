@@ -170,7 +170,73 @@ COPY Inspection (idrestaurant, inspectiondate, violationcode, violationdescripti
 
 ```
 
+## Création du dockerfile de l'API :
 
+```
+FROM python:3
+RUN pip install -r requirements.txt
+CMD python api.py
+
+```
+
+## Création du requirements.txt :
+
+```
+Flask
+FastAPI
+Optional
+Uvicorn
+Flask-cqlalchemy
+CQL
+```
+
+Docker-compose.yml mis à jour:
+
+```
+version: '2'
+
+services:
+ cassa1:
+    container_name: cassa1
+    image: cassandra:latest
+    volumes:
+      - ./Cassandras_Restaurant:/var/lib/cassandra/data
+    ports:
+      - 9042:9042
+    environment:
+      - CASSANDRA_START_RPC=true
+      - CASSANDRA_CLUSTER_NAME=MyCluster
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_DC=datacenter1
+ cassa2:
+  container_name: cassa2
+  image: cassandra:latest
+  volumes:
+      - ./Cassandras_Restaurant:/var/lib/cassandra/data
+  ports:
+      - 9043:9042
+  command: bash -c 'sleep 60;  /docker-entrypoint.sh cassandra -f'
+  depends_on:
+    - cassa1
+  environment:
+      - CASSANDRA_START_RPC=true
+      - CASSANDRA_CLUSTER_NAME=MyCluster
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_DC=datacenter1
+      - CASSANDRA_SEEDS=cassa1
+
+  app:
+    container_name: api1
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    ports:
+      - "5000:5000"
+    links:
+      - cassa1
+
+
+```
 
 ## Création de api.py
 
