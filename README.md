@@ -334,7 +334,7 @@ async def noms(cuisinetype: str):
 @app.get("/inspec/grades/{grad}")
 async def grades(grad: str):
     DataB.connexion()
-    data = DataB.grades(grad)
+    data = DataB.restos_grade(grad)
     return data
 
 
@@ -348,5 +348,17 @@ async def inspec(id: int):
 
 if __name__ == "__main__":
     uvicorn.run(app, host='127.0.0.1', port=8000)
+
+
+"""
+TEST
+
+http://127.0.0.1:8000/infos/50018577
+http://127.0.0.1:8000/type/Indian
+http://127.0.0.1:8000/inspec/41628423
+http://127.0.0.1:8000/inspec/grades/A
+
+
+"""
 
 ```
