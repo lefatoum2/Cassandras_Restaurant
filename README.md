@@ -1,8 +1,5 @@
 # Cassandras_Restaurant
 
-
-# Cassandras_Restaurant
-
 ## Contexte du projet
 
 Le CRKI est contacté par un client qui a un gros besoin en big data. Il souhaite centraliser dans une base de données, les résultats des inspections des restaurants. La base est appelée à grossir de façon continue. Il faut donc une technologie scalable, sans perdre en temps de réponse. La solution semble être Cassandra et c'est ce que vous allez devoir prouver en déployant un cluster.
