@@ -184,10 +184,8 @@ CMD python api.py
 ```
 Flask
 FastAPI
-Optional
 Uvicorn
-Flask-cqlalchemy
-CQL
+Cassandra
 ```
 
 Docker-compose.yml mis à jour:
